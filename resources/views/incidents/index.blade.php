@@ -4,49 +4,110 @@
     <title>Daftar Kejadian</title>
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Foundation CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/foundation/6.6.3/css/foundation.min.css" />
     <style>
         #map {
             height: 500px;
             width: 100%;
             margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        #map:hover {
+            transform: scale(1.02);
         }
 
         .map-buttons {
             margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
         }
 
         .map-buttons button {
             padding: 10px 15px;
-            margin-right: 5px;
+            border: none;
+            background-color: #0078D4;
+            color: #fff;
             cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .map-buttons button:hover {
+            background-color: #005A9E;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: #f9f9f9;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+
+        ul li:hover {
+            background-color: #f1f1f1;
+        }
+
+        a {
+            text-decoration: none;
+            color: #0078D4;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <h1>Daftar Kejadian</h1>
+    <div class="grid-container">
+        <div class="grid-x grid-padding-x">
+            <div class="cell small-12">
+                <h1 class="text-center">Daftar Kejadian</h1>
 
-    <!-- Tombol untuk memilih jenis tampilan -->
-    <div class="map-buttons">
-        <button onclick="showMarkers()">Tampilkan Titik</button>
-        <button onclick="showChoropleth()">Tampilkan Choropleth Map</button>
+                <!-- Tombol untuk memilih jenis tampilan -->
+                <div class="map-buttons">
+                    <button onclick="showMarkers()">Tampilkan Titik</button>
+                    <button onclick="showChoropleth()">Tampilkan Choropleth Map</button>
+                </div>
+
+                <div id="map"></div>
+
+                <div class="text-center">
+                    <a class="button" href="{{ route('incidents.create') }}">Tambah Kejadian</a>
+                </div>
+
+                <ul>
+                    @foreach ($incidents as $incident)
+                        <li>
+                            <strong>{{ $incident->location_name }}</strong> ({{ $incident->region_name }})
+                            <br>Koordinat: {{ $incident->latitude }}, {{ $incident->longitude }}
+                            <br>{{ $incident->description }}
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
     </div>
-
-    <div id="map"></div>
-
-    <a href="{{ route('incidents.create') }}">Tambah Kejadian</a>
-
-    <ul>
-        @foreach ($incidents as $incident)
-            <li> sjhdfkjsdhf
-                <strong>{{ $incident->location_name }}</strong> ({{ $incident->region_name }})
-                <br>Koordinat: {{ $incident->latitude }}, {{ $incident->longitude }}
-                <br>{{ $incident->description }}
-            </li>
-        @endforeach
-    </ul>
 
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Foundation JS -->
+    <script src="https://cdn.jsdelivr.net/foundation/6.6.3/js/foundation.min.js"></script>
     <script>
         // Inisialisasi peta
         var map = L.map('map').setView([-6.9175, 107.6191], 13); // Koordinat default: Bandung
@@ -152,3 +213,4 @@
     </script>
 </body>
 </html>
+
