@@ -1,66 +1,157 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel Project: Incident Mapping and Visualization
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Project Overview
+This project is a Laravel-based application for managing and visualizing incident data. It allows users to input incidents, associate them with specific geographical locations, and display these incidents on an interactive map. The map provides two visualization options:
+1. Marker-based visualization for individual incidents.
+2. Interactive choropleth map for aggregated incident data by region.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Features
+### 1. Incident Management (CRUD)
+- Add, edit, view, and delete incidents.
+- Store information including:
+  - Location name
+  - Region name
+  - Latitude and longitude
+  - Description of the incident
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 2. Interactive Map Visualization
+- **Marker-based Map:**
+  - Displays individual incidents as markers on the map.
+  - Clicking a marker shows the incident's details.
+- **Choropleth Map:**
+  - Highlights regions based on the number of incidents.
+  - Uses a color gradient to indicate incident density.
+  - Clicking on a region shows the total number of incidents.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 3. Local Database with SQLite
+- All incident data is stored locally in an SQLite database.
+- Dummy data includes various incidents in and around Bandung, Indonesia.
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Setup and Installation
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Prerequisites
+1. PHP >= 8.1
+2. Composer
+3. Laravel >= 10.x
+4. SQLite
+5. A web browser
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Installation Steps
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd <project-directory>
+   ```
+2. Install dependencies:
+   ```bash
+   composer install
+   ```
+3. Configure the `.env` file:
+   - Set database connection to SQLite:
+     ```env
+     DB_CONNECTION=sqlite
+     DB_DATABASE=/full/path/to/database.sqlite
+     ```
+   - Create the SQLite database file if it doesn't exist:
+     ```bash
+     touch database/database.sqlite
+     ```
+4. Run migrations:
+   ```bash
+   php artisan migrate
+   ```
+5. Seed dummy data (optional):
+   ```bash
+   php artisan tinker
+   ```
+   Paste the following code to add dummy data:
+   ```php
+   use App\Models\Incident;
 
-## Laravel Sponsors
+   $dummyData = [
+       [
+           'location_name' => 'Alun-Alun Bandung',
+           'region_name' => 'Bandung',
+           'latitude' => -6.921273,
+           'longitude' => 107.607891,
+           'description' => 'Sering terjadi pencopetan saat malam hari.',
+       ],
+       [
+           'location_name' => 'Stasiun Bandung',
+           'region_name' => 'Bandung',
+           'latitude' => -6.914744,
+           'longitude' => 107.609810,
+           'description' => 'Kasus kehilangan barang di sekitar area parkir.',
+       ],
+       [
+           'location_name' => 'Cihampelas Walk',
+           'region_name' => 'Bandung',
+           'latitude' => -6.893554,
+           'longitude' => 107.610116,
+           'description' => 'Beberapa laporan penipuan di sekitar tempat parkir.',
+       ],
+       [
+           'location_name' => 'Pasar Baru Trade Center',
+           'region_name' => 'Bandung',
+           'latitude' => -6.916325,
+           'longitude' => 107.602433,
+           'description' => 'Sering terjadi pencurian di dalam pasar.',
+       ],
+       [
+           'location_name' => 'Gedung Sate',
+           'region_name' => 'Bandung',
+           'latitude' => -6.902515,
+           'longitude' => 107.618583,
+           'description' => 'Beberapa laporan perampokan saat malam hari.',
+       ],
+   ];
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+   foreach ($dummyData as $data) {
+       Incident::create($data);
+   }
+   ```
+6. Serve the application:
+   ```bash
+   php artisan serve
+   ```
+7. Access the application in your browser:
+   ```
+   http://127.0.0.1:8000
+   ```
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## Current Progress
+1. **CRUD Implementation**: Fully functional.
+2. **Interactive Maps**:
+   - Markers for individual incidents.
+   - Choropleth map for visualizing incident density.
+3. **Dummy Data**: Seeded with locations in and around Bandung.
+4. **SQLite Database**: Configured and operational.
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Next Steps
+1. Enhance the UI and UX of the application.
+2. Add filtering options for incidents based on region or date.
+3. Implement user authentication and authorization for managing incidents.
+4. Explore offline map functionality.
+5. Optimize for mobile devices.
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Technical Stack
+- **Backend**: Laravel 10.x
+- **Database**: SQLite
+- **Frontend**: HTML, CSS, Leaflet.js
+- **Mapping**: Leaflet.js with OpenStreetMap tiles
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
 ## License
+This project is open-source and licensed under the [MIT License](LICENSE).
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
