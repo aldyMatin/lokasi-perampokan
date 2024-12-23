@@ -37,7 +37,7 @@
 
     <ul>
         @foreach ($incidents as $incident)
-            <li>
+            <li> sjhdfkjsdhf
                 <strong>{{ $incident->location_name }}</strong> ({{ $incident->region_name }})
                 <br>Koordinat: {{ $incident->latitude }}, {{ $incident->longitude }}
                 <br>{{ $incident->description }}
@@ -105,6 +105,17 @@
                         "geometry": {
                             "type": "Polygon",
                             "coordinates": [[[107.52, -6.94], [107.56, -6.94], [107.56, -6.88], [107.52, -6.88], [107.52, -6.94]]]
+                        }
+                    },
+                    {
+                        "type": "Feature",
+                        "properties": {
+                            "region_name": "Soreang",
+                            "incident_count": incidents.filter(i => i.region_name === "Soreang").length
+                        },
+                        "geometry": {
+                            "type": "Polygon",
+                            "coordinates": [[[107.48, -6.97], [107.52, -6.97], [107.52, -6.91], [107.48, -6.91], [107.48, -6.97]]]
                         }
                     }
                 ]
